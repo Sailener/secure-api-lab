@@ -3,7 +3,16 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+const loggingMiddleware = (req, res, next) => {
+  const timestamp = new Date().toISOString();
+  const method = req.method;
+  const url = req.url;
+  console.log(`[${timestamp}] ${method} ${url}`);
+  next();
+};
+
 app.use(express.json());
+app.use(loggingMiddleware);
 
 const { users, documents, employees } = require('./data');
 
